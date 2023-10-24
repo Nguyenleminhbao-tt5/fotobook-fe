@@ -1,0 +1,3 @@
+interface IPhoto {
+    title: string;
+}

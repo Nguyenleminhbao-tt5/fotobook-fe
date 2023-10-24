@@ -3,7 +3,7 @@
 
 const SidebarRight = ()=>{
     return (
-        <div>
+        <div className="col-span-3">
             Sidebar Right
         </div>
     )

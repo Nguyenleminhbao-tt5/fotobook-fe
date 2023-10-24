@@ -22,15 +22,17 @@ export default function RootLayout({
       <head>
 
       </head>
-      <body className={`${inter.className} text-white`}>
-        <Header theme='dark' />
-        <div className='container'>
-          <SidebarLeft/>
-          <div className='content'>
-            {children}
+      <body className={inter.className}>
+        <main className='flex flex-col items-center  w-full overflow-hidden min-h-screen text-white bg-[#18191A] '>
+          <Header theme='dark' />
+          <div className='w-full h-full grid grid-cols-12 '>
+            <SidebarLeft/>
+            <div className='content col-span-6'>
+              {children}
+            </div>
+            <SidebarRight/>
           </div>
-          <SidebarRight/>
-        </div>
+        </main>
           
       </body>
     </html>
