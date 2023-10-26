@@ -11,7 +11,7 @@ const SidebarRight = ()=>{
     const user:IUser= {fullName:"Kha Bui", avatar:"./thumb/user.png"};
 
     return (
-        <div className="col-span-3  mt-[15px] ">
+        <div className="col-span-3  mt-[15px] sticky top-0">
             <div className="flex justify-between w-full mt-[10px] items-center">
                 <h1 className="text-[#7f8286] ps-2 font-bold  text-[21px]">Lời mời kết bạn</h1>
                 <a href="" className="text-[#2176FF] pe-[30px]">Xem tất cả</a>
@@ -39,7 +39,7 @@ const SidebarRight = ()=>{
                 <ItemSidebar isGroup={false} source="./thumb/user.png" title="Nguyễn Lê Minh Bảo" size="small"/>
                 <ItemSidebar isGroup={false} source="./thumb/user.png" title="Nguyễn Lê Minh Bảo" size="small"/>
                 <ItemSidebar isGroup={false} source="./thumb/user.png" title="Nguyễn Lê Minh Bảo" size="small"/>
-                <ItemSidebar isGroup={false} source="./thumb/user.png" title="Nguyễn Lê Minh Bảo" size="small"/>
+                
                
               
             </ul>

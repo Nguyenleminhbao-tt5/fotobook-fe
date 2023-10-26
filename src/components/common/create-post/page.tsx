@@ -6,7 +6,7 @@ import {FaSmileBeam} from 'react-icons/fa';
 const CreatePost =()=>{
 
     return (
-        <div className="bg-[#242526] px-[20px] my-[25px] h-[150px] rounded-[10px] py-[15px] ">
+        <div className="bg-[#242526] px-[20px] my-[25px]  h-[150px] rounded-[10px] py-[15px] ">
             <section className="flex items-center ">
                 <img src="./thumb/user.png" className="w-[50px] h-[50px] rounded-full"/>
                 <span className="w-[300px] h-[50px] rounded-[30px] bg-[#3A3B3C] text-[#728087] flex items-center ms-[15px] w-full">
