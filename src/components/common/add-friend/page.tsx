@@ -10,7 +10,7 @@ type Props = {
 const AddFriend = ({user} : Props)=>{
     return (
         <div className="flex items-center my-[20px] h-full">
-            <img src={user.avatar} className="w-[70px] h-[70px] rounded-full" />
+            <img src={String(user.avatar)} className="w-[70px] h-[70px] rounded-full" />
             <div className="h-[70px] flex flex-col ms-4 justify-between ">
                 <h2 className="text-[17px] font-semibold">{user.fullName}</h2>
                 <ul>

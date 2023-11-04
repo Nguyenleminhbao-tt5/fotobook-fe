@@ -2,9 +2,9 @@ import IComment from "./comment-interface";
 import IUser from "./user-interface";
 
 export default interface IPost {
-    isGroup?: boolean,
+    isGroup?: Boolean,    // tin nay group dang hay do nguoi dung dang
     user: IUser,
-    description: string,
+    description: String,
     comments: IComment,
-    countLikes: number
+    countLikes: Number
 }

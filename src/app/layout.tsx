@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
+import { Providers } from '@/redux/provider'
 import { Inter } from 'next/font/google'
 import Header from '@/components/header/page'
 import SidebarLeft from '@/components/sidebar-left/page'
 import SidebarRight from '@/components/sidebar-right/page'
 import './globals.css'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,16 +25,18 @@ export default function RootLayout({
 
       </head>
       <body className={inter.className}>
-        <main className='flex flex-col items-center  w-full overflow-hidden min-h-screen text-white bg-[#18191A] '>
-          <Header theme='dark' />
-          <div className='w-full h-full grid grid-cols-12 mt-[70px]'>
-            <SidebarLeft/>
-            <div className='content col-span-6 px-[32px] mt-[25px]'>
-              {children}
+        <Providers>
+          <main className='flex flex-col items-center  w-full overflow-hidden min-h-screen text-white bg-[#18191A] '>
+            <Header theme='dark' />
+            <div className='w-full h-full grid grid-cols-12 mt-[70px]'>
+              <SidebarLeft/>
+              <div className='content col-span-6 px-[32px] mt-[25px]'>
+                {children}
+              </div>
+              <SidebarRight/>
             </div>
-            <SidebarRight/>
-          </div>
-        </main>
+          </main>
+        </Providers>
           
       </body>
     </html>
