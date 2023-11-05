@@ -1,7 +1,9 @@
 export default interface IUser {
-    email?: String,
-    fullName: String,
-    avatar: String,
+    user_id?: string,
+    email?: string,
+    firstName?: string,
+    lastName?: string
+    avatar?: string,
     age?: Number,
     DoB?: Date,
     sex?: 'male' |'female'

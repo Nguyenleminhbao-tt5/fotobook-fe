@@ -1,28 +1,67 @@
-'use client'
+"use client";
 
 import StoryCard from "@/components/common/story-card/page";
 import CreatePost from "@/components/common/create-post/page";
 import IUser from "@/interfaces/user-interface";
 import Post from "@/components/common/post/page";
-import { useAppSelector } from "@/redux/hook";
+import { useGetAllPostQuery, useLikedMutation } from "@/redux/service/post-api";
+import { Skeleton } from "antd";
+import IPost from "@/interfaces/post-interface";
+import DefaultLayout from "@/components/layout /default-layout/page";
+import SidebarLeft from "@/components/sidebar-left/page";
+import SidebarRight from "@/components/sidebar-right/page";
 
 export default function Home() {
-  const user:IUser= {fullName:"Kha Bui", avatar:"./thumb/user.png"};
-  const post_id = useAppSelector((state)=>state.post.post_id)
-  console.log(post_id)
+  const user: IUser = {
+    firstName: "Kha",
+    lastName: "Bui",
+    avatar: "./thumb/user.png",
+  };
+  const user_id: string = "ymn2c14exti3y5vs3zbceks2uq9jbd83";
+  const { data, isFetching } = useGetAllPostQuery();
+
+  // console.log(data);
+
+  // let posts = data?.message?.posts;
+  // let users = data?.message?.users;
+  // let photos = data?.message?.photos;
+  // let listPostLike: string[] = data?.message?.listPostLike;
+
   return (
-    <div className="max-w-[750px] mx-auto h-[10000px] ">
-        <ul className="w-full grid grid-cols-4 gap-3">
+    <DefaultLayout>
+      <SidebarLeft />
+      <div className="content col-span-6 px-[32px] mt-[25px]">
+        <div className="max-w-[750px] mx-auto h-[10000px] ">
+          <ul className="w-full grid grid-cols-4 gap-3">
             <StoryCard isStory={false} user={user} />
             <StoryCard isStory={true} user={user} />
             <StoryCard isStory={true} user={user} />
-            <StoryCard isStory={true} user={user}/>
-            
-        </ul>
+            <StoryCard isStory={true} user={user} />
+          </ul>
 
-        <CreatePost/>
+          <CreatePost />
 
-        <Post/>
-    </div>
-  )
+          {isFetching && <Skeleton className=" bg-white" active />}
+          {/* {!isFetching &&
+            posts.map((post: IPost, index: number) => {
+              let isLike: boolean = listPostLike.find(
+                (ele) => post.post_id == ele
+              )
+                ? true
+                : false;
+              return (
+                <Post
+                  key={post.post_id}
+                  user={users[index]}
+                  post={post}
+                  photos={photos[index]}
+                  isLike={isLike}
+                />
+              );
+            })} */}
+        </div>
+      </div>
+      <SidebarRight />
+    </DefaultLayout>
+  );
 }

@@ -1,6 +1,7 @@
 export default interface IPhoto {
     // title: string,
     // description: string,
-    source: String
+    photo_id: string,
+    source: string,
     status: 'public' | 'private'
 }

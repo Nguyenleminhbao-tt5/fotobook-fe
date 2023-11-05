@@ -30,7 +30,7 @@ const StoryCard= ({user, isStory , story}: Props)=>{
                         <img src={user?.avatar} className={`h-[45px] w-[45px] rounded-full mr-4  border-[#0866FF] p-[2px] border-[2px] `}/>
                         <span className="bg-[#46AB5E] rounded-full block w-[12px] h-[12px] absolute right-[18px] bottom-0  border-black border-[2px]"></span>
                     </span>
-                    <span className="absolute bottom-[10px] left-[15px] font-semibold ">{user?.fullName}</span>
+                    <span className="absolute bottom-[10px] left-[15px] font-semibold ">{`${user?.firstName} ${user?.lastName}`}</span>
                 </div>
             
             }

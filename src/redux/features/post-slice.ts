@@ -4,11 +4,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 type PostType = {
-    post_id: string
+    post_id: string,
+
 }
 
 const initialState : PostType = {
-    post_id: 'alo'
+    post_id: '',
+
 }
 
 const postSlice = createSlice({

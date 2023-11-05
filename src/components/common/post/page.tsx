@@ -4,32 +4,48 @@ import IPost from "@/interfaces/post-interface";
 import {PiShareFatBold} from 'react-icons/pi';
 import {FaRegComment} from 'react-icons/fa';
 import {AiOutlineLike} from "react-icons/ai";
+import IUser from "@/interfaces/user-interface";
+import IPhoto from "@/interfaces/photo-interface";
+import { useState } from "react";
+import { MutationActionCreatorResult } from "@reduxjs/toolkit/query";
+import { useLikedMutation } from "@/redux/service/post-api";
 
 
-// type Props={
-//     post: IPost
-// }
+type Props={
+    user: IUser,
+    post: IPost,
+    photos: IPhoto[],
+    isLike: boolean
+}
 
 
-const Post= ()=>{
+const Post= ({user, post, photos, isLike}: Props)=>{
+
+    const [liked, setLiked] = useState<boolean>(isLike);
+    const [handleLiked] =  useLikedMutation();
+    const handleLike =(post_id:string)=> {
+        setLiked(!liked);
+        handleLiked(post_id);
+    }
+    
     return (
         <div className="bg-[#242526]  mt-[25px] mb-[10px] rounded-[10px] py-[15px] ">
             <header className=" flex items-center px-[20px]">
                 <span className="relative">
-                    <img src='https://i.pinimg.com/564x/c0/22/3f/c0223fa30e6a4a858c24d996f94ef8cc.jpg' className="h-[50px] w-[50px] rounded-full mr-4"/>
+                    <img src={user.avatar != ''? user.avatar : 'https://i.pinimg.com/564x/c0/22/3f/c0223fa30e6a4a858c24d996f94ef8cc.jpg'} className="h-[50px] w-[50px] rounded-full mr-4"/>
                 </span>
                 <div className="flex flex-col justify-between">
-                    <h1 className="font-semibold text-[18px]">Thầy Đỗ Văn Đức - Ôn luyện 10, 11, 12 môn Toán</h1>
-                    <h3>Johnny Bui</h3>
+                    <h1 className="font-semibold text-[18px]">{`${user.firstName} ${user.lastName}`}</h1>
+                    <h3>1 hour</h3>
                 </div>
             </header>
 
             <span className="block my-[15px] px-[20px] text-[17px] leading-relaxed">
-                Chào mọi người ạ, em sinh năm 2001 đã tốt nghiệp ngành Kỹ thuật máy tính chưa tìm được công việc ạ. Ở trường từ thì em được học các lệnh cơ bản lập trình vi điều khiển , thiết kế mạch với Altium. Trong bài tập của vài môn thì em làm theo trên mạng liên quan đến IT chứ không làm về mạch vì em thấy hứng thú hơn. Giờ muốn học IT thì phải bắt đầu từ đâu ạ và có nên rẽ sang không ạ trong tình hình hiện nay? Hay đi theo hướng nào của điện tử ạ , bắt đầu học ôn tập từ đâu ạ , có thể xin thực tập ở đâu? Em học lực TB rất mong nhận được lời khuyên ạ.
+                {post.description}
             </span>
 
             <div className="p-0">
-                <img src="./thumb/bkbk.jpg" className="w-full  h-[600px]" />
+                <img src={photos[0].source} className="w-full  h-[600px]" />
             </div>
 
             <footer className="flex flex-col px-[20px] mt-[15px]">
@@ -45,10 +61,10 @@ const Post= ()=>{
                 <span className="bg-[#3A3B3C]  h-[1.2px] w-full block mt-[15px] mb-[10px]"></span>
                
                 <nav className="grid grid-cols-3 mx-auto gap-2 h-[40px] w-full">
-                    <span className="flex items-center justify-center hover:rounded-[10px] hover:bg-[#3A3B3C]">
-                        <AiOutlineLike className=" text-[30px] text-[#7f8286]"/>
-                        <h3 className='text-[#8d939b] font-semibold ms-[10px] text-[20px]'>Thích</h3>
-                    </span>
+                    <button className="flex items-center justify-center hover:rounded-[10px] hover:bg-[#3A3B3C] cursor-pointer" onClick={()=>handleLike(post.post_id || '')}>
+                        <AiOutlineLike className={`text-[30px] ${liked?'text-[#1E76FF]':'text-[#7f8286]'} `}/>
+                        <h3 className={` ${liked?'text-[#1E76FF]':'text-[#8d939b]'} font-semibold ms-[10px] text-[20px]`}>Thích</h3>
+                    </button>
 
                     <span className="flex items-center justify-center hover:rounded-[10px] hover:bg-[#3A3B3C]">
                         <FaRegComment className=" text-[30px] text-[#7f8286]"/>

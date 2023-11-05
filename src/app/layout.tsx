@@ -26,16 +26,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Providers>
-          <main className='flex flex-col items-center  w-full overflow-hidden min-h-screen text-white bg-[#18191A] '>
-            <Header theme='dark' />
-            <div className='w-full h-full grid grid-cols-12 mt-[70px]'>
-              <SidebarLeft/>
-              <div className='content col-span-6 px-[32px] mt-[25px]'>
-                {children}
-              </div>
-              <SidebarRight/>
-            </div>
-          </main>
+          {children}
         </Providers>
           
       </body>
