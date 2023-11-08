@@ -8,7 +8,7 @@ const SidebarRight = () => {
   const user: IUser = {
     firstName: "Kha",
     lastName: "Bui",
-    avatar: "./thumb/user.png",
+    avatar: "../thumb/user.png",
   };
 
   return (

@@ -7,31 +7,31 @@ const SidebarLeft = () => {
       <nav className="">
         <ItemSidebar
           isGroup={true}
-          source="./thumb/user.png"
+          source="../thumb/user.png"
           title="Nguyễn Lê Minh Bảo"
           size="large"
         />
         <ItemSidebar
           isGroup={true}
-          source="./thumb/teamwork.png"
+          source="../thumb/teamwork.png"
           title="Bạn bè"
           size="small"
         />
         <ItemSidebar
           isGroup={true}
-          source="./thumb/save-instagram.png"
+          source="../thumb/save-instagram.png"
           title="Đã lưu"
           size="small"
         />
         <ItemSidebar
           isGroup={true}
-          source="./thumb/group.png"
+          source="../thumb/group.png"
           title="Nhóm"
           size="small"
         />
         <ItemSidebar
           isGroup={true}
-          source="./thumb/marketplace.png"
+          source="../thumb/marketplace.png"
           title="Marketplace"
           size="small"
         />
@@ -43,27 +43,27 @@ const SidebarLeft = () => {
       <ul className="">
         <ItemSidebar
           isGroup={true}
-          source="./thumb/bkbk.jpg"
+          source="../thumb/bkbk.jpg"
           title="HCMUT K20"
         />
         <ItemSidebar
           isGroup={true}
-          source="./thumb/bkbk.jpg"
+          source="../thumb/bkbk.jpg"
           title="HCMUT K21"
         />
         <ItemSidebar
           isGroup={true}
-          source="./thumb/bkbk.jpg"
+          source="../thumb/bkbk.jpg"
           title="HCMUT K22"
         />
         <ItemSidebar
           isGroup={true}
-          source="./thumb/bkbk.jpg"
+          source="../thumb/bkbk.jpg"
           title="HCMUT K23"
         />
         <ItemSidebar
           isGroup={true}
-          source="./thumb/bkbk.jpg"
+          source="../thumb/bkbk.jpg"
           title="HCMUT K24"
         />
       </ul>

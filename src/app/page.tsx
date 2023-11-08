@@ -4,28 +4,28 @@ import StoryCard from "@/components/common/story-card/page";
 import CreatePost from "@/components/common/create-post/page";
 import IUser from "@/interfaces/user-interface";
 import Post from "@/components/common/post/page";
-import { useGetAllPostQuery, useLikedMutation } from "@/redux/service/post-api";
+import { useGetAllPostQuery } from "@/redux/service/post-api";
 import { Skeleton } from "antd";
 import IPost from "@/interfaces/post-interface";
 import DefaultLayout from "@/components/layout /default-layout/page";
 import SidebarLeft from "@/components/sidebar-left/page";
 import SidebarRight from "@/components/sidebar-right/page";
+import { useRouter } from "next/navigation";
+import useUser from "@/stores/user-store";
+import checkLogin from "@/services/check-login";
 
 export default function Home() {
-  const user: IUser = {
-    firstName: "Kha",
-    lastName: "Bui",
-    avatar: "./thumb/user.png",
-  };
-  const user_id: string = "ymn2c14exti3y5vs3zbceks2uq9jbd83";
-  const { data, isFetching } = useGetAllPostQuery();
+  const router = useRouter();
 
-  // console.log(data);
+  checkLogin(); // check use login
 
-  // let posts = data?.message?.posts;
-  // let users = data?.message?.users;
-  // let photos = data?.message?.photos;
-  // let listPostLike: string[] = data?.message?.listPostLike;
+  const { user } = useUser();
+  const { data, error, isFetching } = useGetAllPostQuery();
+
+  let posts = data?.message?.posts;
+  let users = data?.message?.users;
+  let photos = data?.message?.photos;
+  let listPostLike: string[] = data?.message?.listPostLike;
 
   return (
     <DefaultLayout>
@@ -42,7 +42,7 @@ export default function Home() {
           <CreatePost />
 
           {isFetching && <Skeleton className=" bg-white" active />}
-          {/* {!isFetching &&
+          {!isFetching &&
             posts.map((post: IPost, index: number) => {
               let isLike: boolean = listPostLike.find(
                 (ele) => post.post_id == ele
@@ -58,7 +58,7 @@ export default function Home() {
                   isLike={isLike}
                 />
               );
-            })} */}
+            })}
         </div>
       </div>
       <SidebarRight />

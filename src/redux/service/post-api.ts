@@ -1,16 +1,24 @@
+import IResponse from "@/interfaces/response-interface";
 import { axiosBaseQuery } from "@/utils/axios-base-query";
 import { createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 
-const accessToken: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InltbjJjMTRleHRpM3k1dnMzemJjZWtzMnVxOWpiZDgzIiwiaWF0IjoxNjk5MTQ1NTI4LCJleHAiOjE2OTkyMzE5Mjh9.h3-_sZ3k6htMbIx2Te4k8kDbiaYknQ7dGGKGahZ69PU";
+let accessToken: string; 
+
+if (typeof localStorage !== 'undefined') {
+    accessToken = localStorage.getItem("accessToken") as string;
+} 
+else {
+    console.log("👉️ can't use localStorage")
+}
 
 export const postApi = createApi({
     reducerPath: 'postApi',
     baseQuery: axiosBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_DOMAIN_SERVER}/api/posts`
+        baseUrl: `${process.env.NEXT_PUBLIC_DOMAIN_SERVER}/api/posts`,        
     }),
     endpoints: build => ({
-        getAllPost: build.query<any,void> ({
+        getAllPost: build.query<IResponse,void> ({
             query: ()=>({
                 url: `/`,
                 method: 'GET', 
@@ -18,7 +26,7 @@ export const postApi = createApi({
             })
         }),
 
-        getPost: build.query<any, string> ({
+        getPost: build.query<IResponse, string> ({
             query: (post_id) => ({
                 url: `/${post_id}`,
                 method: 'GET',
@@ -26,7 +34,7 @@ export const postApi = createApi({
             })
         }),
 
-        liked: build.mutation<any, string> ({
+        liked: build.mutation<IResponse, string> ({
             query: (post_id) => ({
                 url: '/like',
                 method: 'POST',
