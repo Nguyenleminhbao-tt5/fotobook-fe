@@ -4,6 +4,8 @@ import React from "react";
 import { AutoComplete, Button, Form, Input, Select } from "antd";
 import { useSignUpMutation } from "@/redux/service/user-api";
 import IUser from "@/interfaces/user-interface";
+import useUser from "@/stores/user-store";
+import { useRouter } from "next/navigation";
 
 const { Option } = Select;
 
@@ -17,7 +19,9 @@ type RegisterType = {
 };
 
 const SignUp = () => {
+  const router = useRouter();
   const [signUp, resultSignup] = useSignUpMutation();
+  const { user, setUser } = useUser();
 
   const handleSignUp = ({
     firstName,
@@ -38,7 +42,16 @@ const SignUp = () => {
     signUp(newUser)
       .unwrap()
       .then((response) => {
-        console.log(response);
+        setUser(response.message as IUser);
+        localStorage.setItem(
+          "accessToken",
+          String(response.message.accessToken)
+        );
+        localStorage.setItem(
+          "refreshToken",
+          String(response.message.refreshToken)
+        );
+        router.push("/");
       })
       .catch((error) => {
         console.error(error);

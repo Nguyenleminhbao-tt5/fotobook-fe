@@ -3,7 +3,7 @@ import { create } from 'zustand'
 
 
 type Store = {
-  user: IUser;
+  user: IUser ;
   setUser: (newUser:IUser) => void
 }
 

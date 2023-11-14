@@ -6,7 +6,7 @@ export default interface IUser {
     lastName?: string
     avatar?: string,
     age?: Number,
-    DoB?: string,
+    dob?: string,
     sex?: 'male' |'female',
     accessToken?: string
 

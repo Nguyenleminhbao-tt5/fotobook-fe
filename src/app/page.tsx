@@ -1,31 +1,27 @@
 "use client";
 
-import StoryCard from "@/components/common/story-card/page";
-import CreatePost from "@/components/common/create-post/page";
-import IUser from "@/interfaces/user-interface";
-import Post from "@/components/common/post/page";
-import { useGetAllPostQuery } from "@/redux/service/post-api";
-import { Skeleton } from "antd";
-import IPost from "@/interfaces/post-interface";
 import DefaultLayout from "@/components/layout /default-layout/page";
 import SidebarLeft from "@/components/sidebar-left/page";
 import SidebarRight from "@/components/sidebar-right/page";
-import { useRouter } from "next/navigation";
+import { StoryCard, CreatePost, Post } from "@/components/common";
+import IPost from "@/interfaces/post-interface";
+import { useGetAllPostQuery, useGetPostQuery } from "@/redux/service/post-api";
+import { Skeleton } from "antd";
 import useUser from "@/stores/user-store";
 import checkLogin from "@/services/check-login";
+import Link from "next/link";
 
 export default function Home() {
-  const router = useRouter();
-
-  checkLogin(); // check use login
+  //checkLogin(); // check use login
 
   const { user } = useUser();
-  const { data, error, isFetching } = useGetAllPostQuery();
 
-  let posts = data?.message?.posts;
-  let users = data?.message?.users;
-  let photos = data?.message?.photos;
-  let listPostLike: string[] = data?.message?.listPostLike;
+  // const { data: allPosts, isLoading, isFetching } = useGetAllPostQuery();
+
+  // let posts = allPosts?.message?.posts;
+  // let users = allPosts?.message?.users;
+  // let photos = allPosts?.message?.photos;
+  // let listPostLike: string[] = allPosts?.message?.listPostLike;
 
   return (
     <DefaultLayout>
@@ -41,7 +37,12 @@ export default function Home() {
 
           <CreatePost />
 
-          {isFetching && <Skeleton className=" bg-white" active />}
+          <Link href="/profile" className=" text-green-500">
+            {" "}
+            next page
+          </Link>
+
+          {/* {isLoading && <Skeleton className=" bg-white" active />}
           {!isFetching &&
             posts.map((post: IPost, index: number) => {
               let isLike: boolean = listPostLike.find(
@@ -59,6 +60,7 @@ export default function Home() {
                 />
               );
             })}
+          <div>{allPosts?.type}</div> */}
         </div>
       </div>
       <SidebarRight />

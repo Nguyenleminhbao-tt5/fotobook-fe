@@ -37,8 +37,25 @@ export  const userApi = createApi({
                     sex: newUser.sex
                 }
             })
+        }),
+
+        getUserByToken: build.query<IResponse,string>({
+            query: (token)=>({
+                url: `/${token}`,
+                method: 'GET'
+            })
+        }),
+
+        refreshAccessToken: build.mutation<IResponse,string>({
+            query: (refreshToken)=>({
+                url: '/refresh-access-token',
+                method: 'POST',
+                data: {
+                    refreshToken
+                }
+            })
         })
     })
 })
 
-export const {useLoginMutation, useSignUpMutation} = userApi;
+export const {useLoginMutation, useSignUpMutation, useGetUserByTokenQuery, useRefreshAccessTokenMutation} = userApi;

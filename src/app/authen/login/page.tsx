@@ -3,7 +3,7 @@ import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
 import { useLoginMutation } from "@/redux/service/user-api";
-import Loading from "@/components/common/spin/page";
+import { Loading } from "@/components/common";
 import IUser from "@/interfaces/user-interface";
 import { useRouter } from "next/navigation";
 import IResponse from "@/interfaces/response-interface";
@@ -37,7 +37,7 @@ const Login = () => {
           );
           router.push("/");
         })
-        .catch((err) => console.log(err));
+        .catch((err: any) => console.log(err));
     }
   };
 
