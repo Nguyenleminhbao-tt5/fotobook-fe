@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { AutoComplete, Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select } from "antd";
 import { useSignUpMutation } from "@/redux/service/user-api";
 import IUser from "@/interfaces/user-interface";
 import useUser from "@/stores/user-store";
 import { useRouter } from "next/navigation";
-
+import Image from "next/image";
 const { Option } = Select;
 
 type RegisterType = {
@@ -59,110 +59,143 @@ const SignUp = () => {
   };
 
   return (
-    <Form
-      name="register"
-      onFinish={handleSignUp}
-      style={{ maxWidth: 600 }}
-      scrollToFirstError
-      className="m-auto"
-    >
-      <Form.Item
-        name="firstName"
-        label="First Name"
-        rules={[{ required: true, message: "Please input the first name!" }]}
-      >
-        <Input />
-      </Form.Item>
+    <div className="text-black w-full bg-gray-100 h-screen flex items-center justify-center">
+      <div className="w-1/4">
+        <div className="w-full flex items-center justify-center">
+          <Image
+            src={"/thumb/fotobook-full.png"}
+            width={300}
+            height={100}
+            alt="Fotobook Logo"
+            className="py-4"
+          />
+        </div>
+        <div className="bg-white p-5 rounded-xl">
+          <div className="w-full flex flex-col items-center justify-center pb-5">
+            <strong className="text-2xl">Tạo tài khoản mới</strong>
+            <span>Nhanh chóng và dễ dàng.</span>
+          </div>
+          <Form
+            name="register"
+            onFinish={handleSignUp}
+            style={{ maxWidth: 600 }}
+            scrollToFirstError
+            className="m-auto"
+          >
+            <Form.Item
+              name="firstName"
+              label="Họ"
+              rules={[{ required: true, message: "Hãy nhập tên họ của bạn!" }]}
+            >
+              <Input placeholder="Họ" />
+            </Form.Item>
 
-      <Form.Item
-        name="lastName"
-        label="Last Name"
-        rules={[{ required: true, message: "Please input the last name!" }]}
-      >
-        <Input />
-      </Form.Item>
+            <Form.Item
+              name="lastName"
+              label="Tên"
+              rules={[{ required: true, message: "Hãy nhập tên của bạn!" }]}
+            >
+              <Input placeholder="Tên" />
+            </Form.Item>
 
-      <Form.Item
-        name="email"
-        label="E-mail"
-        rules={[
-          {
-            type: "email",
-            message: "The input is not valid E-mail!",
-          },
-          {
-            required: true,
-            message: "Please input your E-mail!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+            <Form.Item
+              name="email"
+              label="E-mail"
+              rules={[
+                {
+                  type: "email",
+                  message: "Email không hợp lệ!",
+                },
+                {
+                  required: true,
+                  message: "Hãy nhập email của bạn!",
+                },
+              ]}
+            >
+              <Input placeholder="E-mail" />
+            </Form.Item>
 
-      <Form.Item
-        name="password"
-        label="Password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
-        hasFeedback
-      >
-        <Input.Password />
-      </Form.Item>
+            <Form.Item
+              name="password"
+              label="Mật khẩu"
+              rules={[
+                {
+                  required: true,
+                  message: "Hãy nhập mật khẩu của bạn!",
+                },
+              ]}
+              hasFeedback
+            >
+              <Input.Password placeholder="Mật khẩu" />
+            </Form.Item>
 
-      <Form.Item
-        name="confirm"
-        label="Confirm Password"
-        dependencies={["password"]}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: "Please confirm your password!",
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                new Error("The new password that you entered do not match!")
-              );
-            },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
+            <Form.Item
+              name="confirm"
+              label="Xác nhận mật khẩu"
+              dependencies={["password"]}
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                  message: "Hãy xác nhận lại mật khẩu!",
+                },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error("Mật khẩu xác nhận lại không khớp!")
+                    );
+                  },
+                }),
+              ]}
+            >
+              <Input.Password placeholder="Xác nhận mật khẩu" />
+            </Form.Item>
 
-      <Form.Item
-        name="dob"
-        label="Date of Birth"
-        rules={[{ required: true, message: "Please input the Date of Birth!" }]}
-      >
-        <Input type="date" />
-      </Form.Item>
+            <Form.Item
+              name="dob"
+              label="Ngày sinh"
+              rules={[
+                { required: true, message: "Hãy nhập ngày sinh của bạn!" },
+              ]}
+            >
+              <Input type="date" />
+            </Form.Item>
 
-      <Form.Item
-        name="sex"
-        label="Sex"
-        rules={[{ required: true, message: "Please select gender!" }]}
-      >
-        <Select placeholder="select your gender">
-          <Option value="male">Male</Option>
-          <Option value="female">Female</Option>
-        </Select>
-      </Form.Item>
+            <Form.Item
+              name="sex"
+              label="Giới tính"
+              rules={[
+                { required: true, message: "Hãy chọn giới tính của bạn!" },
+              ]}
+            >
+              <Select placeholder="Giới tính">
+                <Option value="male">Nam</Option>
+                <Option value="female">Nữ</Option>
+              </Select>
+            </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" className=" bg-green-500">
-          Register
-        </Button>
-      </Form.Item>
-    </Form>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-fit bg-green-500 py-3 px-10 text-lg font-bold text-white rounded-md hover:bg-green-600 mx-auto flex items-center justify-center"
+              >
+                Đăng ký
+              </Button>
+            </Form.Item>
+          </Form>
+          <p
+            onClick={() => router.push("/authen/login")}
+            className="-mt-2 cursor-pointer text-blue-600 text-sm text-center hover:underline"
+          >
+            Bạn đã có tài khoản ư?
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 
