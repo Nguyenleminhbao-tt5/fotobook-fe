@@ -1,6 +1,6 @@
 "use client";
 
-import DefaultLayout from "@/components/layout /default-layout/page";
+import DefaultLayout from "@/components/layout/default-layout/page";
 import SidebarLeft from "@/components/sidebar-left/page";
 import SidebarRight from "@/components/sidebar-right/page";
 import { StoryCard, CreatePost, Post } from "@/components/common";
