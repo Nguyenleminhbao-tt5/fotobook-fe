@@ -15,20 +15,22 @@ const Profile = () => {
   const { user } = useUser();
   return (
     <DefaultLayout>
-      <div className="col-span-1 ps-3"></div>
-      <div className="col-span-10 mx-12">
-        <ProfileHead />
-        <ProfileNavBar />
-        <div className="w-full flex p-5">
-          <div className="w-2/5 mr-5">
-            <div className="flex flex-col">
-              <PersonalInformation />
-              <PersonImages />
+      <div className="col-span-1"></div>
+      <div className="col-span-10 flex items-center justify-center">
+        <div className="mx-12 w-[1000px]">
+          <ProfileHead />
+          <ProfileNavBar />
+          <div className="w-full flex p-5">
+            <div className="w-2/5 mr-5">
+              <div className="flex flex-col">
+                <PersonalInformation />
+                <PersonImages />
+              </div>
             </div>
-          </div>
-          <div className="w-3/5 ">
-            <div className="flex flex-col">
-              <PostHeader />
+            <div className="w-3/5 ">
+              <div className="flex flex-col">
+                <PostHeader />
+              </div>
             </div>
           </div>
         </div>
