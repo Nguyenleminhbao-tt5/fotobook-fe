@@ -3,25 +3,23 @@ import Image from "next/image";
 
 const ProfileHead = () => {
   return (
-    <div className="h-[670px] shadow rounded-[15px] flex flex-col relative">
+    <div className="h-[550px] shadow rounded-[15px] mb-20 flex flex-col relative">
       <Image
         src="/mock/cover.jpeg"
-        alt=""
-        width={0}
-        height={450}
-        sizes="100vw"
-        className="w-full"
+        alt="cover photos"
+        layout="fill"
+        objectFit="cover"
       />
-      <div className="absolute bottom-0 left-8 w-full">
+      <div className="absolute bottom-0 -mb-20 left-8 w-full">
         <div className="grid grid-cols-6">
           <div className="col-span-1">
             <img
               src="/mock/avatar.jpeg"
-              className={`h-[150px] w-[150x] rounded-full border-[#0866FF] p-[2px] border-[2px]`}
+              className={`h-37 w-37 rounded-full border-[#0866FF] p-[2px] border-[2px]`}
             />
           </div>
           <div className="col-span-3">
-            <strong className="-ml-8 bottom-2 absolute text-2xl">
+            <strong className="bottom-2 absolute text-2xl">
               Mark ZuckerBerg
             </strong>
           </div>
