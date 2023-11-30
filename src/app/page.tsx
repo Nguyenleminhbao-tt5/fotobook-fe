@@ -5,23 +5,46 @@ import SidebarLeft from "@/components/sidebar-left/page";
 import SidebarRight from "@/components/sidebar-right/page";
 import { StoryCard, CreatePost, Post } from "@/components/common";
 import IPost from "@/interfaces/post-interface";
-import { useGetAllPostQuery, useGetPostQuery } from "@/redux/service/post-api";
 import { Skeleton } from "antd";
 import useUser from "@/stores/user-store";
-import checkLogin from "@/services/check-login";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import PostService from "@/services/api/post-api";
+import IUser from "@/interfaces/user-interface";
+import IPhoto from "@/interfaces/photo-interface";
+import getUser from "@/services/get-user";
 
 export default function Home() {
-  //checkLogin(); // check use login
+  // checkLogin();
+  const { user, setUser } = useUser();
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [posts, setPosts] = useState<IPost[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [photos, setPhotos] = useState<IPhoto[][]>([]);
+  const [listPostLike, setLike] = useState<string[]>([]);
 
-  const { user } = useUser();
-
-  // const { data: allPosts, isLoading, isFetching } = useGetAllPostQuery();
-
-  // let posts = allPosts?.message?.posts;
-  // let users = allPosts?.message?.users;
-  // let photos = allPosts?.message?.photos;
-  // let listPostLike: string[] = allPosts?.message?.listPostLike;
+  useEffect(() => {
+    const getAllPosts = async () => {
+      try {
+        setLoading(true);
+        const response = await PostService.getAllPost();
+        if (response && response.type == "Success") {
+          setPosts(response?.message?.posts);
+          setUsers(response?.message?.users);
+          setPhotos(response?.message?.photos);
+          setLike(response?.message?.listPostLike);
+        }
+        console.log(user);
+        if (!user.user_id) setUser(await getUser());
+      } catch (err) {
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    };
+    getAllPosts();
+  }, []);
+  console.log("post", posts);
 
   return (
     <DefaultLayout>
@@ -42,8 +65,8 @@ export default function Home() {
             next page
           </Link>
 
-          {/* {isLoading && <Skeleton className=" bg-white" active />}
-          {!isFetching &&
+          {isLoading && <Skeleton className=" bg-white" active />}
+          {!isLoading &&
             posts.map((post: IPost, index: number) => {
               let isLike: boolean = listPostLike.find(
                 (ele) => post.post_id == ele
@@ -60,7 +83,6 @@ export default function Home() {
                 />
               );
             })}
-          <div>{allPosts?.type}</div> */}
         </div>
       </div>
       <SidebarRight />

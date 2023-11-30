@@ -1,8 +1,10 @@
-import { useSignUpMutation } from "@/redux/service/user-api";
 import { Button, Form, Input, Select } from "antd";
 import IUser from "@/interfaces/user-interface";
 import useUser from "@/stores/user-store";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import UserService from "@/services/api/user-api";
+import { Loading } from "@/components/common";
 const { Option } = Select;
 
 type RegisterType = {
@@ -16,10 +18,10 @@ type RegisterType = {
 
 const SignUpForm = () => {
   const router = useRouter();
-  const [signUp, resultSignup] = useSignUpMutation();
   const { user, setUser } = useUser();
+  const [isLoading, setLoading] = useState<boolean>(false);
 
-  const handleSignUp = ({
+  const handleSignUp = async ({
     firstName,
     lastName,
     email,
@@ -27,17 +29,17 @@ const SignUpForm = () => {
     dob,
     sex,
   }: RegisterType) => {
-    const newUser: IUser = {
-      firstName,
-      lastName,
-      email,
-      password,
-      dob,
-      sex,
-    };
-    signUp(newUser)
-      .unwrap()
-      .then((response) => {
+    try {
+      setLoading(true);
+      const response = await UserService.signUp({
+        firstName,
+        lastName,
+        email,
+        password,
+        dob,
+        sex,
+      });
+      if (response && response.type == "Success") {
         setUser(response.message as IUser);
         localStorage.setItem(
           "accessToken",
@@ -48,10 +50,12 @@ const SignUpForm = () => {
           String(response.message.refreshToken)
         );
         router.push("/");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      }
+    } catch (err) {
+      throw err;
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -164,7 +168,7 @@ const SignUpForm = () => {
             htmlType="submit"
             className="w-fit bg-green-500 py-3 px-10 text-lg font-bold text-white rounded-md hover:bg-green-600 mx-auto flex items-center justify-center"
           >
-            Đăng ký
+            {isLoading ? <Loading size="small" /> : "Đăng nhập"}
           </Button>
         </Form.Item>
       </Form>

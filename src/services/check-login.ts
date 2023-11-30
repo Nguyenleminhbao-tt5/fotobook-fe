@@ -1,11 +1,8 @@
 
-import { useGetUserByTokenQuery, useRefreshAccessTokenMutation } from "@/redux/service/user-api";
 import useUser from "@/stores/user-store";
 import checkTokenExpiration from "@/utils/check-token-expiration";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-import { useEffect } from "react";
-
+import UserService from "./api/user-api";
 
 
 const checkLogin  = async ()=>{
@@ -15,52 +12,47 @@ const checkLogin  = async ()=>{
         const accessToken = localStorage.getItem("accessToken") as string;
         const refreshToken = localStorage.getItem("refreshToken") as string;
 
-        if ( !accessToken && !refreshToken) 
+
+        if (accessToken && refreshToken)
         {
-            console.log('login again')
-            router.push("/authen/login")
-        }
-        else {
             const isAccessTokenExpired = checkTokenExpiration(accessToken); // true: token expired,
             const isRefreshTokenExpired = checkTokenExpiration(refreshToken); // refresh token expired
     
             const { user, setUser } = useUser();
-    
-            if ( !isAccessTokenExpired && !isRefreshTokenExpired && !user?.email)  // refresh user
+            
+            if ( !isAccessTokenExpired && !isRefreshTokenExpired && !user?.email)  // get user
             {
-    
-                console.log('refresh user');
-                axios({
-                    method: 'GET',
-                    url:`${process.env.NEXT_PUBLIC_DOMAIN_SERVER}/api/users/${refreshToken}`
-                })
-                .then(response =>{
-                   setUser(response.data.message)
-                })
-                .catch(error =>{
-                    console.log(error)
-                })
+               
+                try{
+                    console.log('Get user');
+                    const response = await UserService.getUserByToken(refreshToken);
+                    if (response && response.type=="Success")
+                    {
+                        setUser(response.message)
+                    }
+                }
+                catch(err)
+                {
+                    throw err;
+                }
+                
                 
             }
             else if (isAccessTokenExpired && !isRefreshTokenExpired) // refresh access token
             {
                 try{
                     console.log('refresh access token');
-    
-                    const [refreshAccessToken] = useRefreshAccessTokenMutation();
-                    refreshAccessToken(refreshToken).unwrap().
-                    then((response)=>{
+                    const response = await UserService.refreshAccessToken(refreshToken);
+                    if (response && response.type=="Success")
+                    {
                         localStorage.setItem(
                             "accessToken",
                             String(response.message.accessToken)
-                        );
-                    })
-                    .catch((error)=>{
-                        throw error;
-                    })
+                          );
+                    }
                 }
                 catch (error){
-    
+                    throw error;
                 }
     
                 
@@ -70,10 +62,7 @@ const checkLogin  = async ()=>{
                 console.log('login again')
                 router.push("/authen/login")
             }
-    
         }
-
-
        
     } 
     else {

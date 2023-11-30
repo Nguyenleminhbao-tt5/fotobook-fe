@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
-import { useLoginMutation } from "@/redux/service/user-api";
 import { Loading } from "@/components/common";
 import IUser from "@/interfaces/user-interface";
 import { useRouter } from "next/navigation";
-import IResponse from "@/interfaces/response-interface";
 import useUser from "@/stores/user-store";
+import UserService from "@/services/api/user-api";
+import { useState } from "react";
 
 type LoginType = {
   email?: string;
@@ -34,14 +34,15 @@ const FotobookThumb = () => {
 
 const LoginForm = () => {
   const router = useRouter();
-  const [login, resultLogin] = useLoginMutation();
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
+  const [isLoading, setLoading] = useState<boolean>(false);
 
-  const handleLogin = ({ email, password, remember }: LoginType) => {
-    if (email && password) {
-      login({ email, password })
-        .unwrap()
-        .then((response: IResponse) => {
+  const handleLogin = async ({ email, password, remember }: LoginType) => {
+    try {
+      if (email && password) {
+        setLoading(true);
+        const response = await UserService.login(email, password);
+        if (response && response.type == "Success") {
           setUser(response.message as IUser);
           localStorage.setItem(
             "accessToken",
@@ -52,8 +53,12 @@ const LoginForm = () => {
             String(response.message.refreshToken)
           );
           router.push("/");
-        })
-        .catch((err: any) => console.log(err));
+        }
+      }
+    } catch (err) {
+      throw err;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,7 +105,7 @@ const LoginForm = () => {
           htmlType="submit"
           className="w-full login-form-button bg-blue-600 p-5 my-2 text-lg font-bold text-white rounded-md hover:bg-blue-700 flex items-center justify-center"
         >
-          {resultLogin.isSuccess ? <Loading size="small" /> : "Đăng nhập"}
+          {isLoading ? <Loading size="small" /> : "Đăng nhập"}
         </Button>
       </Form.Item>
 

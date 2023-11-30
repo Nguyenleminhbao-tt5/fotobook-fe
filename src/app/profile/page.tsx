@@ -1,6 +1,6 @@
 "use client";
 
-import DefaultLayout from "@/components/layout /default-layout/page";
+import DefaultLayout from "@/components/layout/default-layout/page";
 import {
   PersonImages,
   PersonalInformation,
