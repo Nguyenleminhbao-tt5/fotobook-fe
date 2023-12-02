@@ -6,7 +6,6 @@ type Props = {
     user: IUser
 }
 
-
 const AddFriend = ({user} : Props)=>{
     return (
         <div className="flex items-center my-[20px] h-full">
