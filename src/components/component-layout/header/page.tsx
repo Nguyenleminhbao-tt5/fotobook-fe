@@ -8,6 +8,7 @@ import { TbGridDots } from "react-icons/tb";
 import { BsMessenger, BsBellFill } from "react-icons/bs";
 
 import { Input } from "antd";
+import Link from "next/link";
 
 const { Search } = Input;
 
@@ -23,10 +24,12 @@ const Header = ({ theme }: Props) => {
       } h-[70px] w-full grid grid-cols-12  items-center border-[#8a8a8a] fixed z-[1000] `}
     >
       <section className="col-span-3 flex items-center ">
-        <img
-          src="../thumb/facebook.png"
-          className="ml-5 mr-3 w-[50px] rounded"
-        />
+        <Link href="/">
+          <img
+            src="../thumb/facebook.png"
+            className="ml-5 mr-3 w-[50px] rounded"
+          />
+        </Link>
         <span className="w-[300px] h-[50px] rounded-[30px] bg-[#3A3B3C] text-[#728087] flex items-center">
           <BiSearch className="text-[25px] mx-[10px] " />
           <input

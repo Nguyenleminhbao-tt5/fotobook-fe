@@ -6,8 +6,21 @@ const userRoutes = {
   signUp: "/api/users/sign-up",
   getUserByToken: "/api/users",
   refreshAccessToken: "/api/users/refresh-access-token",
+  follow:'/api/users/follow',
+  getFollower: '/api/users/follower',
+  getFollowing: '/api/users/following',
 
 };
+
+let headersPost: object={}; 
+
+if (typeof localStorage !== 'undefined') {
+    let accessToken = localStorage.getItem("accessToken") as string;
+    headersPost = {'Authorization': `Bearer ${accessToken}`}
+} 
+else {
+    console.log("👉️ can't use localStorage")
+}
 
 export default class UserService {
     static login = async (email: string, password: string) => {
@@ -74,5 +87,58 @@ export default class UserService {
         }
 
 
+    }
+
+    static follow = async (follower_id: string)=>{
+        try{
+            const config = {
+                data: {follower_id}
+            }
+
+            const response = await CallAPI.call(userRoutes.follow,{
+                method:'POST',
+                ...config
+            })
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    static getFollower = async ()=>{
+        try{
+            const config = {
+                headers: {
+                    ...headersPost
+                }
+            }
+
+            const response = await CallAPI.call(userRoutes.getFollower,{
+                method:'GET',
+                ...config
+            })
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    static getFollowing = async ()=>{
+        try{
+            const config = {
+                headers: headersPost
+            }
+
+            const response = await CallAPI.call(userRoutes.getFollowing,{
+                method:'GET',
+                ...config
+            })
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
     }
 }

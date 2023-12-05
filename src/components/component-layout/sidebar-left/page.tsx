@@ -1,22 +1,33 @@
 "use client";
-import ItemSidebar from "../common/item-sidebar/page";
+import { ItemSidebar } from "@/components/common";
+import IUser from "@/interfaces/user-interface";
+import Link from "next/link";
+import { useEffect } from "react";
 
-const SidebarLeft = () => {
+type Props = {
+  current_user: IUser;
+};
+
+const SidebarLeft = ({ current_user }: Props) => {
   return (
     <div className="col-span-3 ps-3 mt-[15px] ">
       <nav className="">
-        <ItemSidebar
-          isGroup={true}
-          source="../thumb/user.png"
-          title="Nguyễn Lê Minh Bảo"
-          size="large"
-        />
-        <ItemSidebar
-          isGroup={true}
-          source="../thumb/teamwork.png"
-          title="Bạn bè"
-          size="small"
-        />
+        <Link href={`/profile/${current_user.user_id}`}>
+          <ItemSidebar
+            isGroup={true}
+            source="../thumb/user.png"
+            title={`${current_user.firstName} ${current_user.lastName}`}
+            size="large"
+          />
+        </Link>
+        <Link href="/friends">
+          <ItemSidebar
+            isGroup={true}
+            source="../thumb/teamwork.png"
+            title="Bạn bè"
+            size="small"
+          />
+        </Link>
         <ItemSidebar
           isGroup={true}
           source="../thumb/save-instagram.png"

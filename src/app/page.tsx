@@ -1,54 +1,58 @@
 "use client";
 
 import DefaultLayout from "@/components/layout/default-layout/page";
-import SidebarLeft from "@/components/sidebar-left/page";
-import SidebarRight from "@/components/sidebar-right/page";
+import { SidebarLeft, SidebarRight } from "@/components/component-layout";
 import { StoryCard, CreatePost, Post } from "@/components/common";
-import IPost from "@/interfaces/post-interface";
+import { IPost, IUser } from "@/interfaces";
+import { useEffect, useState } from "react";
 import { Skeleton } from "antd";
 import useUser from "@/stores/user-store";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import PostService from "@/services/api/post-api";
-import IUser from "@/interfaces/user-interface";
-import IPhoto from "@/interfaces/photo-interface";
 import getUser from "@/services/get-user";
+import usePost from "@/stores/post-store";
+import UserService from "@/services/api/user-api";
 
 export default function Home() {
   // checkLogin();
   const { user, setUser } = useUser();
+  const { post, setPost } = usePost();
+  const [follower, setFollower] = useState<IUser>();
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [posts, setPosts] = useState<IPost[]>([]);
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [photos, setPhotos] = useState<IPhoto[][]>([]);
-  const [listPostLike, setLike] = useState<string[]>([]);
 
   useEffect(() => {
-    const getAllPosts = async () => {
+    const fetchData = async () => {
       try {
-        setLoading(true);
-        const response = await PostService.getAllPost();
-        if (response && response.type == "Success") {
-          setPosts(response?.message?.posts);
-          setUsers(response?.message?.users);
-          setPhotos(response?.message?.photos);
-          setLike(response?.message?.listPostLike);
-        }
-        console.log(user);
         if (!user.user_id) setUser(await getUser());
+        setLoading(true);
+
+        if (post.posts.length == 0) {
+          const response = await PostService.getAllPost();
+          if (response && response.type == "Success") {
+            setPost(
+              response?.message?.users,
+              response?.message?.posts,
+              response?.message?.photos,
+              response?.message?.listPostLike
+            );
+          }
+        }
+
+        const response1 = await UserService.getFollower();
+        if (response1 && response1.type == "Success") {
+          setFollower(response1.message.follower[0]);
+        }
       } catch (err) {
         throw err;
       } finally {
         setLoading(false);
       }
     };
-    getAllPosts();
+    fetchData();
   }, []);
-  console.log("post", posts);
 
   return (
     <DefaultLayout>
-      <SidebarLeft />
+      <SidebarLeft current_user={user} />
       <div className="content col-span-6 px-[32px] mt-[25px]">
         <div className="max-w-[750px] mx-auto h-[10000px] ">
           <ul className="w-full grid grid-cols-4 gap-3">
@@ -58,34 +62,30 @@ export default function Home() {
             <StoryCard isStory={true} user={user} />
           </ul>
 
-          <CreatePost />
-
-          <Link href="/profile" className=" text-green-500">
-            {" "}
-            next page
-          </Link>
+          <CreatePost current_user={user} />
 
           {isLoading && <Skeleton className=" bg-white" active />}
           {!isLoading &&
-            posts.map((post: IPost, index: number) => {
-              let isLike: boolean = listPostLike.find(
-                (ele) => post.post_id == ele
+            post.posts.map((childPost: IPost, index: number) => {
+              let isLike: boolean = post.listPostLike.find(
+                (ele) => childPost.post_id == ele
               )
                 ? true
                 : false;
               return (
                 <Post
-                  key={post.post_id}
-                  user={users[index]}
-                  post={post}
-                  photos={photos[index]}
+                  key={childPost.post_id}
+                  user={post.users[index]}
+                  post={childPost}
+                  photos={post.photos[index]}
                   isLike={isLike}
+                  isOwner={user.user_id == post.users[index].user_id}
                 />
               );
             })}
         </div>
       </div>
-      <SidebarRight />
+      <SidebarRight follower={follower as IUser} />
     </DefaultLayout>
   );
 }

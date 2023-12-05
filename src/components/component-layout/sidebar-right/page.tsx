@@ -1,10 +1,14 @@
 "use client";
 
-import ItemSidebar from "../common/item-sidebar/page";
-import AddFriend from "../common/add-friend/page";
+import { ItemSidebar, AddFriend } from "@/components/common";
 import IUser from "@/interfaces/user-interface";
+import Link from "next/link";
 
-const SidebarRight = () => {
+type Props = {
+  follower: IUser;
+};
+
+const SidebarRight = ({ follower }: Props) => {
   const user: IUser = {
     firstName: "Kha",
     lastName: "Bui",
@@ -17,14 +21,12 @@ const SidebarRight = () => {
         <h1 className="text-[#7f8286] ps-2 font-bold  text-[21px]">
           Lời mời kết bạn
         </h1>
-        <a href="" className="text-[#2176FF] pe-[30px]">
+        <Link href="/friends" className="text-[#2176FF] pe-[30px]">
           Xem tất cả
-        </a>
+        </Link>
       </div>
 
-      <ul className="">
-        <AddFriend user={user} />
-      </ul>
+      <ul className="">{follower && <AddFriend user={follower} />}</ul>
       <span className="bg-[#3A3B3C] mx-2 h-[2px] w-full block"></span>
 
       <h1 className="text-[#7f8286] ps-2 font-bold mt-[10px] text-[21px]">

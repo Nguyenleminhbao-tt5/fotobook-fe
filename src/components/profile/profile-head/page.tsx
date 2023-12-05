@@ -1,7 +1,25 @@
+import UserService from "@/services/api/user-api";
 import { Button } from "antd";
 import Image from "next/image";
+import { useState } from "react";
 
-const ProfileHead = () => {
+type Props = {
+  name: string;
+  userProfile_id: string;
+};
+
+const ProfileHead = ({ name, userProfile_id }: Props) => {
+  const [isFollow, setFollow] = useState(false);
+  const handleFollow = async () => {
+    try {
+      setFollow(!isFollow);
+      if (isFollow) {
+        await UserService.follow(userProfile_id);
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
   return (
     <div className="h-[550px] shadow rounded-[15px] mb-20 flex flex-col relative">
       <Image
@@ -19,15 +37,16 @@ const ProfileHead = () => {
             />
           </div>
           <div className="col-span-3">
-            <strong className="bottom-2 absolute text-2xl">
-              Mark ZuckerBerg
-            </strong>
+            <strong className="bottom-2 absolute text-2xl">{name}</strong>
           </div>
           <div className="col-span-2">
             <div className="bottom-2 absolute right-11">
               <div className="flex flex-row">
-                <Button className="mr-2 bg-blue-600 border-none text-white font-bold w-fit text-sm flex items-center justify-center">
-                  Theo dõi
+                <Button
+                  className="mr-2 bg-blue-600 border-none text-white font-bold w-fit text-sm flex items-center justify-center"
+                  onClick={handleFollow}
+                >
+                  {isFollow ? "Đang theo dõi" : "Theo dõi"}
                 </Button>
                 <Button className="mr-2 bg-[#3A3B3C] border-none text-white font-bold w-fit text-sm flex items-center justify-center">
                   Nhắn tin
