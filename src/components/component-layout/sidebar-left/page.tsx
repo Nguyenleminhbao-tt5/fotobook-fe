@@ -15,7 +15,9 @@ const SidebarLeft = ({ current_user }: Props) => {
         <Link href={`/profile/${current_user.user_id}`}>
           <ItemSidebar
             isGroup={true}
-            source="../thumb/user.png"
+            source={
+              current_user.avatar ? current_user.avatar : "../thumb/user.png"
+            }
             title={`${current_user.firstName} ${current_user.lastName}`}
             size="large"
           />

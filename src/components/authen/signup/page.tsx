@@ -168,7 +168,7 @@ const SignUpForm = () => {
             htmlType="submit"
             className="w-fit bg-green-500 py-3 px-10 text-lg font-bold text-white rounded-md hover:bg-green-600 mx-auto flex items-center justify-center"
           >
-            {isLoading ? <Loading size="small" /> : "Đăng nhập"}
+            {isLoading ? <Loading size="small" /> : "Đăng kí"}
           </Button>
         </Form.Item>
       </Form>

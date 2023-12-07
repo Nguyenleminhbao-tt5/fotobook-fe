@@ -58,7 +58,9 @@ const LoginForm = () => {
     } catch (err) {
       throw err;
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   };
 

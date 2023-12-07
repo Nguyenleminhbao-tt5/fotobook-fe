@@ -8,6 +8,8 @@ import FriendRequestsDisplay from "@/components/friend-request-display/page";
 import UserService from "@/services/api/user-api";
 import { IUser } from "@/interfaces";
 
+// fix css frame
+
 // Define the Friends component
 const Friends = () => {
   const [friends, setFriends] = useState<IUser[]>([]);
@@ -33,7 +35,7 @@ const Friends = () => {
       <div className="friends-container">
         <SidebarFriends />
         <div className="friends-main-content">
-          <h1 className="invitation-heading">Lời mời kết bạn</h1>
+          <h1 className="invitation-heading w-[300px]">Lời mời kết bạn</h1>
           <div className="friend-requests-container">
             {friends.map((friend) => {
               return <FriendRequestsDisplay friend={friend} />;

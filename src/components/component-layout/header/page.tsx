@@ -6,9 +6,12 @@ import { RiGroup2Fill } from "react-icons/ri";
 import { LiaGamepadSolid } from "react-icons/lia";
 import { TbGridDots } from "react-icons/tb";
 import { BsMessenger, BsBellFill } from "react-icons/bs";
+import { useRouter } from "next/navigation";
+import { Dropdown, Menu, Space, Button, message, Input, MenuProps } from "antd";
+import React from "react";
 
-import { Input } from "antd";
 import Link from "next/link";
+import usePost from "@/stores/post-store";
 
 const { Search } = Input;
 
@@ -17,12 +20,55 @@ type Props = {
 };
 
 const Header = ({ theme }: Props) => {
+  const router = useRouter();
+  const [messageApi, contextHolder] = message.useMessage();
+  const { post, setPost } = usePost();
+
+  const logout = () => {
+    if (typeof localStorage !== "undefined") {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+
+      messageApi.open({
+        type: "success",
+        content: "Bạn đã đăng xuất thành công !",
+      });
+      setPost([], [], [], []);
+
+      setTimeout(() => {
+        router.push("/authen/login");
+      }, 1000);
+    }
+  };
+  const items: MenuProps["items"] = [
+    {
+      label: "Cài đặt theme",
+      key: "0",
+    },
+    {
+      label: "Cài đặt quyền riêng tư",
+      key: "1",
+    },
+    {
+      label: "Trợ giúp & Hỗ trợ",
+      key: "2",
+    },
+    {
+      type: "divider",
+    },
+    {
+      label: <Button onClick={logout}>Đăng xuất</Button>,
+      key: "3",
+    },
+  ];
+
   return (
     <header
       className={`${
         theme == "light" ? "bg-white" : "bg-[#242526]"
       } h-[70px] w-full grid grid-cols-12  items-center border-[#8a8a8a] fixed z-[1000] `}
     >
+      {contextHolder}
       <section className="col-span-3 flex items-center ">
         <Link href="/">
           <img
@@ -35,7 +81,7 @@ const Header = ({ theme }: Props) => {
           <input
             type="text"
             className="w-[220px] bg-transparent h-[30px]  text-[18px]"
-            placeholder="Tìm Kiếm Trên Facebook"
+            placeholder="Tìm Kiếm Trên Fotobook"
           />
         </span>
       </section>
@@ -67,22 +113,32 @@ const Header = ({ theme }: Props) => {
             {" "}
             <TbGridDots className="text-[30px]" />{" "}
           </li>
+
           <li className="relative flex items-center justify-center rounded-full bg-[#3A3B3C] cursor-pointer w-[50px] mx-[10px] hover:brightness-125">
-            <BsMessenger className="text-[25px]" />
-            <span className="bg-[#E41E3F] absolute top-[-5px] right-[-5px] w-[20px] h-[20px] rounded-full flex items-center justify-center">
-              9
-            </span>
+            <Link href="/messenger">
+              <BsMessenger className="text-[25px]" />
+              <span className="bg-[#E41E3F] absolute top-[-5px] right-[-5px] w-[20px] h-[20px] rounded-full flex items-center justify-center">
+                9
+              </span>
+            </Link>
           </li>
+
           <li className="relative flex items-center justify-center rounded-full bg-[#3A3B3C] cursor-pointer w-[50px] mx-[10px] hover:brightness-125">
             <BsBellFill className="text-[25px]" />
             <span className="bg-[#E41E3F] absolute top-[-5px] right-[-5px] w-[20px] h-[20px] rounded-full flex items-center justify-center">
               6
             </span>
           </li>
-          <li className="flex items-center justify-center rounded-full bg-[#3A3B3C] cursor-pointer w-[50px] mx-[10px] mr-5 hover:brightness-125">
-            {" "}
-            <BiUserCircle className="text-[30px]" />{" "}
-          </li>
+          <Dropdown
+            menu={{ items }}
+            className="flex items-center justify-center rounded-full bg-[#3A3B3C] cursor-pointer w-[50px] mx-[10px] mr-5 hover:brightness-125"
+          >
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <BiUserCircle className="text-[30px]" />
+              </Space>
+            </a>
+          </Dropdown>
         </ul>
       </section>
     </header>

@@ -17,6 +17,7 @@ export default function Home() {
   const { user, setUser } = useUser();
   const { post, setPost } = usePost();
   const [follower, setFollower] = useState<IUser>();
+  const [friends, setFriend] = useState<IUser[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -41,6 +42,13 @@ export default function Home() {
         if (response1 && response1.type == "Success") {
           setFollower(response1.message.follower[0]);
         }
+
+        const response2 = await UserService.getFriend();
+        if (response2 && response2.type == "Success") {
+          setFriend(response2.message.friends);
+        }
+
+        
       } catch (err) {
         throw err;
       } finally {
@@ -85,7 +93,7 @@ export default function Home() {
             })}
         </div>
       </div>
-      <SidebarRight follower={follower as IUser} />
+      <SidebarRight follower={follower as IUser} friends={friends} />
     </DefaultLayout>
   );
 }

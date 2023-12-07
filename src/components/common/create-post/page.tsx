@@ -17,7 +17,7 @@ const CreatePost = ({ current_user }: Props) => {
     <div className="bg-[#242526] px-[20px] my-[25px]  h-[150px] rounded-[10px] py-[15px] ">
       <section className="flex items-center ">
         <img
-          src="./thumb/user.png"
+          src={current_user.avatar ? current_user.avatar : "./thumb/user.png"}
           className="w-[50px] h-[50px] rounded-full"
         />
         <button
@@ -25,7 +25,8 @@ const CreatePost = ({ current_user }: Props) => {
           onClick={() => setOpen(true)}
         >
           <span className="flex ps-[15px]  bg-transparent h-[30px]  text-[22px]">
-            Minh Bảo ơi, bạn đang nghĩ gì thế ?
+            {`${current_user.firstName} ${current_user.lastName}`} ơi, bạn đang
+            nghĩ gì thế ?
           </span>
         </button>
       </section>

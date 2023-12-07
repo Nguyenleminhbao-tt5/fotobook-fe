@@ -49,11 +49,7 @@ const Post = ({ user, post, photos, isLike, isOwner = false }: Props) => {
         <div className="flex items-center">
           <Link href={`/profile/${user.user_id}`} className="relative">
             <img
-              src={
-                user.avatar != ""
-                  ? user.avatar
-                  : "https://i.pinimg.com/564x/c0/22/3f/c0223fa30e6a4a858c24d996f94ef8cc.jpg"
-              }
+              src={user.avatar != "" ? user.avatar : "../thumb/user.png"}
               className="h-[50px] w-[50px] rounded-full mr-4"
             />
           </Link>
